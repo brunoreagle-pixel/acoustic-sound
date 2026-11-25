@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acoustic Sound · Som automotivo premium</title>
+<meta name="description" content="Acoustic Sound — som automotivo de qualidade (SQ), processamento DSP, multimídias e projetos exclusivos em Jaraguá do Sul/SC.">
+<meta name="theme-color" content="#0b0b0c">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&family=Instrument+Serif:ital@1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: estúdio de áudio premium — calmo, preciso, muito ar.
+   IDEA: a página se comporta como um processador DSP: uma onda dourada (a do logo) atravessa tudo.
+   PICTURE: projetos reais da loja em tela cheia + onda dourada viva; demo de áudio e palco sonoro interativos.
+   COLOUR+TYPE: grafite #0b0b0c, ouro #d8a93b, marfim #f2ede3. Outfit fino (como o logo), Instrument Serif itálico de acento, Manrope no texto.
+   LAYOUT: coluna de celular até 1000px; acima disso, seções em duas colunas e menu no topo. */
+:root{color-scheme:dark;--bg:#0b0b0c;--bg2:#121214;--card:#17171a;--line:#2a2a2e;--ink:#f2ede3;--mute:#a9a49a;--gold:#d8a93b;--gold2:#f1cf74;--goldd:#8a6a1f;--red:#d33a35;--r:18px;--nav:64px}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Manrope,system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom))}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:Outfit,sans-serif;font-weight:300;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:clamp(32px,6vw,50px)}
+h3{font-size:21px;font-weight:400}
+em.s{font-family:"Instrument Serif",serif;font-style:italic;font-weight:400;letter-spacing:0}
+.band{padding:clamp(56px,9vw,110px) max(5vw,18px);position:relative}
+.wrap{max-width:1180px;margin:0 auto}
+.lead{color:var(--mute);font-size:17px;max-width:60ch;margin:14px 0 0}
+.kick{display:flex;align-items:center;gap:10px;color:var(--gold);font:500 14px Outfit,sans-serif;margin-bottom:14px}
+.kick svg{width:38px;height:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 24px;border-radius:999px;border:1px solid var(--gold);background:var(--gold);color:#16120a;font:600 15px Manrope,sans-serif;text-decoration:none;transition:transform .25s,background .25s}
+.btn:hover{transform:translateY(-2px);background:var(--gold2)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:#ffffff40}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold2)}
+.btn svg{width:18px;height:18px}
+:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+body.loja .so-bio,body:not(.loja) .so-loja{display:none!important}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* progresso: equalizador */
+#eq{position:fixed;top:0;left:0;right:0;height:4px;z-index:60;display:flex;gap:2px;pointer-events:none}
+#eq i{flex:1;background:#ffffff12;transform-origin:bottom}
+#eq i.on{background:var(--gold)}
+
+/* splash */
+#splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:opacity .7s,visibility .7s}
+#splash.fora{opacity:0;visibility:hidden}
+
+/* marca */
+.marca{display:flex;align-items:center;gap:.5em;font:300 clamp(20px,5.4vw,34px) Outfit,sans-serif;letter-spacing:.2em;white-space:nowrap}
+.marca .w{display:flex;align-items:center;gap:2px;height:1.1em}
+.marca .w i{width:2px;background:var(--gold);border-radius:2px;height:30%;animation:eqb 1.2s ease-in-out infinite alternate}
+.marca small{display:block;font:400 .32em Outfit,sans-serif;letter-spacing:.35em;color:var(--mute);text-align:right;margin-top:.5em}
+@keyframes eqb{to{height:100%}}
+
+/* nav */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:50;height:calc(var(--nav) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);display:grid;grid-template-columns:repeat(5,1fr);background:#0b0b0ce8;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+nav.tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--mute);font:500 11.5px Manrope,sans-serif}
+nav.tabs a svg{width:21px;height:21px}
+nav.tabs a.ativo{color:var(--gold2)}
+nav.tabs .logo-top{display:none}
+.zap{position:fixed;right:16px;bottom:calc(var(--nav) + 16px + env(safe-area-inset-bottom));z-index:49;width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 10px 30px #0008;transition:transform .3s}
+.zap:hover{transform:scale(1.08)}
+.zap svg{width:28px;height:28px;fill:#fff}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:90px max(5vw,18px) 40px;overflow:hidden;isolation:isolate}
+body.loja .hero{min-height:58svh}
+.slides,.slides div{position:absolute;inset:0;z-index:-2}
+.slides div{background-size:cover;background-position:center;opacity:0;transform:scale(1.12);transition:opacity 1.4s ease}
+.slides div.on{opacity:1;animation:kb 7s linear forwards}
+@keyframes kb{from{transform:scale(1.14) translate(1.5%,1%)}to{transform:scale(1.02) translate(0,0)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#0b0b0caa 0%,#0b0b0c33 26%,#0b0b0cd0 60%,#0b0b0c 100%),linear-gradient(90deg,#0b0b0c99,transparent 70%)}
+.bars{position:absolute;top:14px;left:max(5vw,18px);right:max(5vw,18px);display:flex;gap:5px;z-index:2}
+.bars i{flex:1;height:2.5px;border-radius:2px;background:#ffffff38;overflow:hidden}
+.bars i b{display:block;height:100%;width:0;background:var(--ink)}
+.bars i.feito b{width:100%}
+.bars i.agora b{animation:fill 6s linear forwards}
+@keyframes fill{to{width:100%}}
+#onda{position:absolute;left:0;right:0;bottom:22%;height:140px;width:100%;z-index:-1;opacity:.85;pointer-events:none}
+.ripple{position:absolute;border:1px solid var(--gold2);border-radius:50%;pointer-events:none;animation:rip 1s ease-out forwards;z-index:1}
+@keyframes rip{from{width:0;height:0;opacity:.9}to{width:420px;height:420px;margin:-210px 0 0 -210px;opacity:0}}
+.hero .wrap{width:100%}
+.hero h1{font-size:clamp(38px,8.4vw,74px);font-weight:200;margin:26px 0 0;max-width:14ch}
+.hero p.sub{font-size:clamp(16px,2.2vw,19px);color:#ddd6c9;max-width:44ch;margin:16px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 14px;border-radius:999px;background:#0b0b0c99;border:1px solid #ffffff26;font:500 13.5px Manrope,sans-serif;backdrop-filter:blur(8px);white-space:nowrap}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:#3ccf73;box-shadow:0 0 0 4px #3ccf7333}
+.chip.fechado .dot{background:var(--red);box-shadow:0 0 0 4px #d33a3533}
+.chip .st{color:var(--gold2)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.titulo-w{display:inline-block;opacity:0;transform:translateY(.4em);transition:opacity .7s,transform .7s}
+.in .titulo-w,.hero .titulo-w.in{opacity:1;transform:none}
+
+/* atalhos loja */
+.atalhos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:-10px}
+.atalho{display:flex;flex-direction:column;justify-content:space-between;gap:24px;min-height:132px;padding:18px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);text-decoration:none;transition:border-color .3s,transform .3s}
+.atalho:hover{border-color:var(--gold);transform:translateY(-3px)}
+.atalho svg{width:28px;height:28px;color:var(--gold)}
+.atalho b{font:400 18px Outfit,sans-serif;display:block}
+.atalho span{color:var(--mute);font-size:13.5px}
+.atalho.top{grid-column:1/-1;background:linear-gradient(135deg,#2b2210,#17171a 70%);border-color:var(--goldd)}
+
+/* números */
+.nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.num{background:var(--bg);padding:24px 18px}
+.num b{display:block;font:200 clamp(38px,8vw,58px)/1 Outfit,sans-serif;color:var(--gold2);white-space:nowrap}
+.num span{display:block;margin-top:10px;color:var(--mute);font-size:14px}
+
+/* ouça */
+.ouca{background:radial-gradient(120% 80% at 80% 0%,#2a200c 0%,var(--bg) 55%)}
+.demo{margin-top:34px;border:1px solid var(--line);border-radius:24px;background:#0f0f11;padding:clamp(18px,3vw,30px)}
+.spec{position:relative;height:190px}
+.spec canvas{position:absolute;inset:0;width:100%;height:100%}
+.ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:18px}
+.play{width:64px;height:64px;border-radius:50%;border:0;background:var(--gold);color:#16120a;display:grid;place-items:center;flex:none;transition:transform .2s}
+.play:hover{transform:scale(1.06)}
+.play svg{width:24px;height:24px}
+.seg{display:flex;flex:1 1 260px;padding:4px;border-radius:999px;background:#1c1c20;border:1px solid var(--line);position:relative}
+.seg button{flex:1;min-height:48px;border:0;background:none;border-radius:999px;font-weight:600;font-size:14.5px;color:var(--mute);position:relative;z-index:1;transition:color .3s}
+.seg button[aria-pressed=true]{color:#16120a}
+.seg .pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--ink);transition:transform .45s cubic-bezier(.3,1.3,.5,1),background .3s}
+.seg.sq .pill{transform:translateX(100%);background:var(--gold)}
+.nota-fone{color:var(--mute);font-size:13.5px;margin:14px 0 0;display:flex;gap:8px;align-items:center}
+.nota-fone svg{width:18px;height:18px;flex:none;color:var(--gold)}
+.difs{display:grid;gap:12px;margin-top:22px}
+.dif{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:16px;border-radius:14px;background:#151518;border:1px solid var(--line)}
+.dif i{font:200 30px/1 Outfit,sans-serif;color:var(--gold);font-style:normal}
+.dif b{font-weight:600}
+.dif p{margin:4px 0 0;color:var(--mute);font-size:14.5px}
+.dif .o{display:none}.ouca .sqon .dif .o{display:none}
+.ouca:not(.sqon) .dif .o{display:block}.ouca:not(.sqon) .dif .q{display:none}
+
+/* serviços */
+.grid-s{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:34px;perspective:900px}
+.serv{position:relative;text-align:left;padding:20px 16px 18px;border-radius:var(--r);background:linear-gradient(160deg,#1b1b1f,#121214);border:1px solid var(--line);min-height:168px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;transform-style:preserve-3d;transition:transform .2s,border-color .3s}
+.serv:hover{border-color:var(--goldd)}
+.serv svg{width:34px;height:34px;color:var(--gold)}
+.serv b{display:block;font:400 18px/1.2 Outfit,sans-serif}
+.serv span{display:block;color:var(--mute);font-size:13.5px;margin-top:6px;line-height:1.4}
+.serv .mais{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--mute);font-size:18px}
+
+/* folha */
+.folha{position:fixed;inset:0;z-index:90;display:flex;align-items:flex-end;justify-content:center;background:#000a;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.folha.on{opacity:1;visibility:visible}
+.folha .box{width:min(560px,100%);max-height:88svh;overflow:auto;background:#151518;border:1px solid var(--line);border-radius:24px 24px 0 0;padding:26px 22px calc(26px + env(safe-area-inset-bottom));transform:translateY(40px);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.folha.on .box{transform:none}
+.folha .x{position:absolute;margin:-10px 0 0;right:max(calc(50% - 270px),12px);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#151518;font-size:20px}
+.folha h3{font-size:26px;font-weight:300;margin:6px 0 10px;padding-right:44px}
+.folha p{color:#d6d0c4;margin:0 0 12px}
+.folha ul{margin:0 0 18px;padding:0;list-style:none}
+.folha li{padding:9px 0 9px 26px;border-top:1px solid var(--line);position:relative;font-size:15px}
+.folha li::before{content:"";position:absolute;left:4px;top:17px;width:10px;height:2px;background:var(--gold)}
+
+/* palco */
+.palco{background:var(--bg2)}
+.palco-g{display:grid;gap:28px;margin-top:30px;align-items:center}
+.carro{position:relative;aspect-ratio:1/1.25;max-width:430px;width:100%;margin:0 auto}
+.carro svg{position:absolute;inset:0;width:100%;height:100%}
+.ms{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:16px}
+.ms div{padding:10px 6px;border-radius:12px;background:#1b1b1f;border:1px solid var(--line);text-align:center}
+.ms b{display:block;font:300 clamp(14px,3.6vw,18px) Outfit,sans-serif;color:var(--gold2);white-space:nowrap}.ms b small{font-size:.7em;margin-left:2px;color:var(--mute)}
+.ms span{font-size:11.5px;color:var(--mute)}
+.palco-txt .estado{font:300 22px Outfit,sans-serif;margin:20px 0 6px;min-height:2.4em}
+
+/* projeto */
+.proj-g{display:grid;gap:26px;margin-top:30px}
+.hot{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:800/1066;background:#111}
+.hot img{width:100%;height:100%;object-fit:cover}
+.hp{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:0;background:none;display:grid;place-items:center}
+.hp::before{content:"";position:absolute;inset:12px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 0 #f2ede399;animation:pul 2s infinite}
+.hp.on::before{background:var(--gold)}
+@keyframes pul{70%{box-shadow:0 0 0 14px #f2ede300}100%{box-shadow:0 0 0 0 #f2ede300}}
+.tip{position:absolute;left:12px;right:12px;bottom:12px;padding:14px 16px;border-radius:14px;background:#0b0b0ce6;border:1px solid var(--line);backdrop-filter:blur(10px);transform:translateY(12px);opacity:0;transition:.35s}
+.tip.on{transform:none;opacity:1}
+.tip b{color:var(--gold2);font-weight:600}
+.tip p{margin:4px 0 0;font-size:14px;color:#d6d0c4}
+.trofeu{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center;padding:16px;border-radius:var(--r);border:1px solid var(--goldd);background:linear-gradient(135deg,#251d0b,#141416);margin-top:22px}
+.trofeu img{width:110px;height:140px;object-fit:cover;border-radius:12px}
+.trofeu b{display:block;font:300 34px/1 Outfit,sans-serif;color:var(--gold2)}
+.trofeu span{color:#d6d0c4;font-size:14.5px}
+.crit{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.crit span{padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;color:#d6d0c4}
+
+/* processo */
+.passos{display:grid;gap:0;margin-top:34px;position:relative}
+.passo{display:grid;grid-template-columns:52px 1fr;gap:16px;padding-bottom:30px;position:relative}
+.passo::before{content:"";position:absolute;left:25px;top:52px;bottom:0;width:1px;background:linear-gradient(var(--gold),transparent)}
+.passo:last-child::before{display:none}
+.passo .n{width:52px;height:52px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;font:300 20px Outfit,sans-serif;color:var(--gold2)}
+.passo h3{margin-top:12px}
+.passo p{margin:6px 0 0;color:var(--mute)}
+
+/* galeria */
+.gal{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:20px max(5vw,18px) 30px;scrollbar-width:none;margin-top:14px}
+.gal::-webkit-scrollbar{display:none}
+.gal button{flex:0 0 min(64vw,320px);aspect-ratio:3/4;border:0;padding:0;border-radius:var(--r);overflow:hidden;scroll-snap-align:center;transition:transform .4s,opacity .4s;transform:scale(.9);opacity:.55;background:#111}
+.gal button.c{transform:scale(1);opacity:1}
+.gal img{width:100%;height:100%;object-fit:cover}
+.gal-nav{display:flex;gap:10px;justify-content:center}
+.gal-nav button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:none;font-size:20px}
+#lb{position:fixed;inset:0;z-index:95;background:#000e;display:grid;place-items:center;padding:20px;opacity:0;visibility:hidden;transition:.3s}
+#lb.on{opacity:1;visibility:visible}
+#lb img{max-height:86svh;border-radius:12px}
+#lb button{position:absolute;top:14px;right:14px;width:48px;height:48px;border-radius:50%;border:1px solid #fff4;background:#0008;font-size:22px}
+
+/* evento */
+.evento{background:linear-gradient(180deg,var(--bg) 0%,#19130a 100%)}
+.ev{border:1px solid var(--goldd);border-radius:26px;overflow:hidden;display:grid;background:#100e0a}
+.ev-img{position:relative;min-height:260px;background:url(porta-malas.jpg) center/cover}
+.ev-img::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#100e0a,transparent 60%)}
+.ev-c{padding:24px clamp(18px,3vw,34px) 30px}
+.ev-c h2{font-size:clamp(30px,5vw,44px)}
+.ev-l{list-style:none;padding:0;margin:18px 0}
+.ev-l li{padding:8px 0;border-top:1px solid #ffffff14;display:flex;gap:12px}
+.ev-l li::before{content:"";width:6px;height:6px;margin-top:10px;border-radius:50%;background:var(--gold);flex:none}
+.cd{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:18px 0 22px}
+.cd div{text-align:center;padding:12px 4px;border-radius:12px;background:#1d180e;border:1px solid #3a2f17}
+.cd b{display:block;font:200 30px/1 Outfit,sans-serif;color:var(--gold2)}
+.cd span{font-size:12px;color:var(--mute)}
+.sabs{margin-top:26px;padding:18px;border-radius:var(--r);border:1px solid var(--line);background:#141416}
+.sabs .ds{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.sabs .ds span{padding:8px 14px;border-radius:10px;background:#1f1f23;font-weight:600;font-size:14px;white-space:nowrap}
+.sabs .ds span.hoje{background:var(--gold);color:#16120a}
+
+/* avaliar */
+.aval{text-align:center}
+.nota{font:200 clamp(84px,18vw,140px)/1 Outfit,sans-serif;color:var(--gold2);margin-top:10px}
+.estrelas{display:flex;justify-content:center;gap:6px;margin:6px 0 4px}
+.estrelas svg{width:30px;height:30px;fill:#ffffff20;transition:fill .4s}
+.estrelas.in svg{fill:var(--gold)}
+.estrelas.in svg:nth-child(2){transition-delay:.12s}.estrelas.in svg:nth-child(3){transition-delay:.24s}.estrelas.in svg:nth-child(4){transition-delay:.36s}.estrelas.in svg:nth-child(5){transition-delay:.48s}
+.deps{display:grid;gap:12px;margin:30px auto;max-width:900px;text-align:left}
+.dep{padding:20px;border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+.dep p{margin:0;font:400 19px/1.45 "Instrument Serif",serif;font-style:italic;color:#e9e3d6}
+.dep span{display:block;margin-top:10px;font-size:13px;color:var(--mute)}
+.lembrete{position:fixed;left:14px;right:14px;bottom:calc(var(--nav) + 14px + env(safe-area-inset-bottom));z-index:70;max-width:440px;margin:0 auto;padding:16px 16px 16px 18px;border-radius:18px;background:#1b1b1f;border:1px solid var(--goldd);box-shadow:0 20px 50px #000b;display:flex;gap:12px;align-items:center;transform:translateY(160%);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.lembrete.on{transform:none}
+.lembrete p{margin:0;font-size:14.5px;flex:1}
+.lembrete a{flex:none;min-height:44px;padding:0 16px}
+.lembrete button{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:#2a2a2e}
+
+/* info */
+.info-g{display:grid;gap:14px;margin-top:30px}
+.ic{padding:22px;border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+.ic h3{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ic h3 svg{width:22px;height:22px;color:var(--gold)}
+.sem{list-style:none;margin:0;padding:0}
+.sem li{display:flex;justify-content:space-between;gap:12px;padding:9px 10px;border-radius:10px;font-size:15px}
+.sem li span:last-child{color:var(--mute);text-align:right}
+.sem li.hoje{background:#2a2210;color:var(--gold2)}
+.sem li.hoje span:last-child{color:var(--gold2)}
+.mapa{position:relative;height:170px;border-radius:14px;overflow:hidden;margin:14px 0;background:#141417}
+.mapa svg{position:absolute;inset:0;width:100%;height:100%}
+.ic p{margin:0 0 6px;color:#d6d0c4}
+.ic .btn{margin-top:12px;width:100%}
+.ic .row{display:flex;flex-wrap:wrap;gap:10px}
+.ic .row .btn{flex:1 1 180px;width:auto}
+.tel{font:300 24px Outfit,sans-serif;white-space:nowrap;text-decoration:none}
+footer{padding:40px max(5vw,18px) 30px;border-top:1px solid var(--line);color:var(--mute);font-size:13.5px;display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center}
+
+
+/* multimídias */
+.mm{background:linear-gradient(180deg,var(--bg) 0%,#101012 100%)}
+.mm-g{display:grid;gap:30px;margin-top:30px;align-items:center}
+.painel{position:relative;padding:22px 16px 26px;border-radius:28px;background:linear-gradient(170deg,#1d1d21,#0f0f11);border:1px solid var(--line);box-shadow:inset 0 1px 0 #ffffff10}
+.painel::before{content:"";position:absolute;left:8%;right:8%;bottom:10px;height:8px;border-radius:8px;background:#0a0a0b;box-shadow:0 0 0 1px #2a2a2e}
+.tela{position:relative;margin:0 auto 18px;width:100%;aspect-ratio:16/9.4;border-radius:14px;background:#050506;border:6px solid #000;box-shadow:0 0 0 1px #333,0 20px 40px #000a;overflow:hidden;transition:width .6s cubic-bezier(.3,1.2,.4,1),aspect-ratio .6s}
+.tela[data-t="7"]{width:72%}.tela[data-t="9"]{width:86%}.tela[data-t="10"]{width:100%}
+.tela[data-t="fl"]{width:100%;aspect-ratio:16/8.2;border-radius:16px;transform:translateY(-6px)}
+.tela .ui{position:absolute;inset:0;display:grid;grid-template-rows:22px 1fr;font:500 11px Manrope,sans-serif;color:#e9e3d6;animation:tin .5s ease}
+@keyframes tin{from{opacity:0;transform:scale(.98)}}
+.ui .barra{display:flex;justify-content:space-between;align-items:center;padding:0 10px;background:#0c0c0e;color:#a9a49a;font-size:10.5px}
+.ui .corpo{position:relative;overflow:hidden;container-type:size}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:7cqh 4cqw;padding:0 6cqw;height:100%;align-content:center}
+.app{display:flex;flex-direction:column;align-items:center;gap:2cqh;font-size:clamp(8px,6.5cqh,11px);color:#cfc9bc;white-space:nowrap}
+.app i{width:min(27cqh,46px);aspect-ratio:1;border-radius:24%;display:grid;place-items:center}
+.app svg{width:52%;height:52%}
+.cam{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 120%,#3a3d40,#16181a 60%,#0b0c0d)}
+.cam svg{position:absolute;inset:0;width:100%;height:100%}
+.cam span{position:absolute;top:8px;left:10px;padding:3px 8px;border-radius:6px;background:#0008;font-size:10px}
+.mapa2{position:absolute;inset:0;background:#15171a}
+.mapa2 svg{position:absolute;inset:0;width:100%;height:100%}
+.mapa2 .card{position:absolute;left:8px;top:8px;padding:7px 10px;border-radius:9px;background:#0b0b0cdd;border:1px solid #2a2a2e;font-size:10.5px;line-height:1.35}
+.mapa2 .card b{color:var(--gold2);font-size:13px}
+.musica{position:absolute;inset:0;display:grid;grid-template-columns:auto 1fr;gap:6%;align-items:center;padding:0 8%;background:radial-gradient(90% 120% at 0% 50%,#2a200c,#0b0b0c 70%)}
+.capa{width:min(62cqh,130px);aspect-ratio:1;border-radius:12px;background:conic-gradient(from 210deg,#d8a93b,#3a2a0c,#f1cf74,#8a6a1f,#d8a93b);box-shadow:0 10px 24px #000a}
+.musica b{display:block;font:400 clamp(12px,10cqh,18px)/1.2 Outfit,sans-serif}.musica small{font-size:clamp(8px,6.5cqh,11px)}
+.musica small{color:#a9a49a}
+.eqm{display:flex;align-items:flex-end;gap:3px;height:18cqh;margin-top:4cqh}
+.eqm i{flex:1;background:var(--gold);border-radius:2px;animation:eqb2 .9s ease-in-out infinite alternate}
+@keyframes eqb2{from{height:15%}to{height:100%}}
+.prog{height:3px;border-radius:3px;background:#333;margin-top:10px;overflow:hidden}.prog i{display:block;height:100%;width:38%;background:var(--ink)}
+.mm-tabs,.mm-tam{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.mm-tabs button,.mm-tam button{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:#17171a;font-size:14px;font-weight:600;color:var(--mute);transition:.25s}
+.mm-tabs button[aria-pressed=true]{background:var(--gold);border-color:var(--gold);color:#16120a}
+.mm-tam{margin-top:10px}.mm-tam button{min-height:40px;padding:0 13px;font-size:13px;background:none}
+.mm-tam button[aria-pressed=true]{border-color:var(--gold2);color:var(--gold2)}
+.mm-cards{display:grid;gap:12px;margin-top:26px}
+.mmc{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);text-align:left;width:100%;transition:border-color .3s,transform .3s}
+.mmc:hover{border-color:var(--goldd);transform:translateY(-2px)}
+.mmc .tam{width:54px;height:54px;border-radius:14px;border:1px solid var(--goldd);display:grid;place-items:center;font:300 19px Outfit,sans-serif;color:var(--gold2);white-space:nowrap}
+.mmc b{display:block;font:400 17px/1.25 Outfit,sans-serif}
+.mmc span{display:block;color:var(--mute);font-size:13.5px;margin-top:3px;line-height:1.4}
+.mmc em{font-style:normal;color:var(--gold2);font-size:13px;font-weight:600;white-space:nowrap}
+.mm-inc{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.mm-inc span{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;background:#17171a;border:1px solid var(--line);font-size:13.5px}
+.mm-inc span::before{content:"✓";color:var(--gold)}
+.aviso{margin-top:14px;font-size:12.5px;color:var(--mute)}
+@media(min-width:600px){.mm-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1000px){.mm-g{grid-template-columns:1.1fr 1fr;gap:60px}.mm-cards{grid-template-columns:1fr}.atalhos{grid-template-columns:repeat(5,minmax(0,1fr))}.atalho.top{grid-column:auto}}
+@media(max-width:380px){.mmc{grid-template-columns:auto 1fr}.mmc em{grid-column:2}}
+@media(min-width:600px){
+ .atalhos{grid-template-columns:repeat(3,minmax(0,1fr))}.atalho.top{grid-column:auto}
+ .nums{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .grid-s{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .difs{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .deps{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .info-g{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .ev{grid-template-columns:1fr 1.2fr}.ev-img{min-height:100%}.ev-img::after{background:linear-gradient(90deg,transparent 50%,#100e0a)}
+ .passos{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:30px}
+}
+@media(min-width:1000px){
+ body{padding-bottom:0}
+ nav.tabs{top:0;bottom:auto;height:70px;padding:0 max(5vw,18px);display:flex;justify-content:flex-end;gap:6px;background:linear-gradient(#0b0b0ccc,#0b0b0c00);border:0;backdrop-filter:none;-webkit-backdrop-filter:none;transition:background .4s}
+ nav.tabs.solido{background:#0b0b0ce8;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+ nav.tabs .logo-top{display:flex;margin-right:auto;font-size:17px;text-decoration:none;color:var(--ink)}
+ nav.tabs a{flex-direction:row;font-size:14.5px;padding:0 14px;gap:8px}
+ nav.tabs a:not(.logo-top) svg{display:none}
+ #eq{top:70px}
+ .zap{bottom:24px;right:24px}
+ .lembrete{bottom:24px;left:auto;right:24px}
+ .hero{padding-bottom:70px}
+ .hero h1{max-width:13ch}
+ .grid-s{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .palco-g{grid-template-columns:1fr 1fr;gap:60px}
+ .proj-g{grid-template-columns:1fr 1.05fr;gap:60px;align-items:center}
+ .passos{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .passo{grid-template-columns:1fr;padding-bottom:0}
+ .passo::before{left:62px;right:0;top:26px;bottom:auto;width:auto;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+ .gal button{flex-basis:300px}
+ .info-g{grid-template-columns:1.1fr 1fr 1fr}
+ .folha{align-items:center}.folha .box{border-radius:24px}
+ .atalhos{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:380px){
+ .grid-s,.atalhos{grid-template-columns:1fr}.atalho.top{grid-column:auto}
+ .marca{letter-spacing:.14em}
+ .cd b{font-size:24px}
+ .ms span{font-size:10.5px}
+}
+@media(max-height:500px) and (orientation:landscape){
+ .hero{min-height:120vh}
+ #onda{bottom:10%;height:80px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important}
+ .reveal,.titulo-w{opacity:1;transform:none}
+ .slides div.on{transform:none}
+}
+</style>
+</head>
+<body>
+<div id="splash" aria-hidden="true"><div class="marca">ACOUSTIC <span class="w" id="sw"></span> SOUND</div></div>
+<div id="eq" aria-hidden="true"></div>
+
+<nav class="tabs" id="nav" aria-label="Seções">
+ <a class="logo-top" href="#topo"><span class="marca" style="font-size:17px">ACOUSTIC <span class="w"><i></i><i></i><i></i><i></i><i></i></span> SOUND</span></a>
+ <a href="#topo" data-s="topo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg>Início</a>
+ <a href="#ouca" data-s="ouca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>Ouvir</a>
+ <a href="#servicos" data-s="servicos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="3" width="14" height="18" rx="3"/><circle cx="12" cy="14" r="3.5"/><circle cx="12" cy="7" r="1.3"/></svg>Serviços</a>
+ <a href="#projeto" data-s="projeto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4h8v5a4 4 0 01-8 0zM8 6H5a3 3 0 003 4M16 6h3a3 3 0 01-3 4M12 13v4M8 20h8"/></svg>Projetos</a>
+ <a href="#info" data-s="info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0119 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Contato</a>
+</nav>
+
+<a class="zap so-bio" id="zap" href="#" aria-label="Falar no WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.7 11.8 11.8 0 004.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 001.8-1.2 2.2 2.2 0 00.1-1.3c0-.1-.2-.2-.5-.3z"/></svg></a>
+
+<main>
+<!-- ABERTURA -->
+<header class="hero" id="topo">
+ <div class="slides" id="slides"></div>
+ <div class="bars" id="bars"></div>
+ <canvas id="onda" aria-hidden="true"></canvas>
+ <div class="wrap">
+  <div class="marca">ACOUSTIC <span class="w"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span> SOUND</div>
+  <h1 class="so-bio" data-t>O equipamento é parte do projeto. A música é o <em class="s">propósito.</em></h1>
+  <h1 class="so-loja" data-t>Bem-vindo à <em class="s">Acoustic Sound.</em></h1>
+  <p class="sub so-bio">Som de qualidade (SQ), processamento DSP e multimídias em Jaraguá do Sul. Cada componente é pensado para você ouvir sua música como ela foi gravada.</p>
+  <p class="sub so-loja">Enquanto você espera, conheça o que fazemos — e escute a diferença de um projeto bem feito.</p>
+  <div class="chips"><span class="chip" id="status"><span class="dot"></span><span id="statusT">…</span></span><span class="chip"><span class="st">★ <span id="gNota"></span></span> no Google</span><span class="chip so-bio"><span class="st">1º lugar</span> SQX Brasil 2026</span></div>
+  <div class="ctas so-bio"><a class="btn" id="ctaZap" href="#" target="_blank" rel="noopener">Quero um projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn ghost" href="#ouca">Ouça a diferença</a></div>
+ </div>
+</header>
+
+<!-- ATALHOS LOJA -->
+<section class="band so-loja" style="padding-top:20px"><div class="wrap atalhos">
+ <a class="atalho top" id="atAval" href="#avaliar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.8 5.7 6.3.9-4.6 4.4 1.1 6.2L12 17l-5.6 3 1.1-6.2L2.9 9.4l6.3-.9z"/></svg><div><b>Avalie a gente no Google</b><span>Leva 30 segundos e ajuda muito</span></div></a>
+ <a class="atalho" href="#ouca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg><div><b>Ouça a diferença</b><span>Original × projeto SQ</span></div></a>
+ <a class="atalho" href="#servicos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="3" width="14" height="18" rx="3"/><circle cx="12" cy="14" r="3.5"/></svg><div><b>Serviços</b><span>Do som ao PPF</span></div></a>
+ <a class="atalho" href="#multimidias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg><div><b>Multimídias</b><span>Centrais à venda</span></div></a>
+ <a class="atalho" id="atInsta" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg><div><b>Siga no Instagram</b><span>Projetos toda semana</span></div></a>
+</div></section>
+
+<!-- NÚMEROS -->
+<section class="band so-bio" style="padding-top:30px;padding-bottom:30px"><div class="wrap nums reveal" id="nums"></div></section>
+
+<!-- OUÇA -->
+<section class="band ouca sqon" id="ouca"><div class="wrap">
+ <div class="kick"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Teste aqui</div>
+ <h2 class="reveal">Ouça a diferença que um <em class="s">projeto</em> faz.</h2>
+ <p class="lead reveal">Aperte o play e alterne entre o som de um sistema original e um sistema SQ bem ajustado. É uma simulação — no carro, a diferença é ainda maior.</p>
+ <div class="demo reveal" id="demo">
+  <div class="spec"><canvas id="spec" aria-label="Espectro de frequências"></canvas></div>
+  <div class="ctrl">
+   <button class="play" id="play" aria-label="Tocar demonstração"><svg viewBox="0 0 24 24" fill="currentColor" id="playI"><path d="M7 4l13 8-13 8z"/></svg></button>
+   <div class="seg sq" id="seg" role="group" aria-label="Escolha o sistema"><span class="pill"></span><button aria-pressed="false" data-m="o">Sistema original</button><button aria-pressed="true" data-m="sq">Projeto SQ</button></div>
+  </div>
+  <p class="nota-fone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>Melhor com fone de ouvido.</p>
+  <div class="difs">
+   <div class="dif"><i>1</i><div><b>Graves</b><p class="q">Grave firme e limpo, que você sente sem embolar.</p><p class="o">Alto-falantes originais quase não reproduzem grave.</p></div></div>
+   <div class="dif"><i>2</i><div><b>Palco sonoro</b><p class="q">Instrumentos separados, da esquerda à direita.</p><p class="o">Tudo misturado no meio, sem posição.</p></div></div>
+   <div class="dif"><i>3</i><div><b>Definição</b><p class="q">Voz natural e agudos com detalhe, sem cansar.</p><p class="o">Médios estridentes e agudos cortados.</p></div></div>
+  </div>
+ </div>
+</div></section>
+
+<!-- SERVIÇOS -->
+<section class="band" id="servicos"><div class="wrap">
+ <div class="kick"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>O que fazemos</div>
+ <h2 class="reveal">Do primeiro alto-falante ao <em class="s">projeto completo.</em></h2>
+ <p class="lead reveal">Toque em um serviço para ver os detalhes. Todo projeto é montado para o seu carro e para o jeito que você ouve música.</p>
+ <div class="grid-s" id="grid-s"></div>
+</div></section>
+
+
+<!-- MULTIMÍDIAS -->
+<section class="band mm" id="multimidias"><div class="wrap">
+ <div class="kick"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Multimídias à venda</div>
+ <h2 class="reveal">Uma central que parece <em class="s">de fábrica.</em></h2>
+ <p class="lead reveal">Temos centrais multimídia na loja, com moldura para o seu carro e instalação integrada ao som. Toque nas funções e nos tamanhos para ver como fica.</p>
+ <div class="mm-g">
+  <div class="reveal">
+   <div class="painel"><div class="tela" id="tela" data-t="9" role="img" aria-label="Simulação da tela da multimídia"></div></div>
+   <div class="mm-tabs" id="mmTabs" role="group" aria-label="Funções"></div>
+   <div class="mm-tam" id="mmTam" role="group" aria-label="Tamanho da tela"></div>
+  </div>
+  <div>
+   <div class="mm-cards" id="mmCards" style="margin-top:0"></div>
+   <div class="mm-inc" id="mmInc"></div>
+   <p class="aviso" id="mmAviso">Modelos e valores de exemplo — consulte as opções disponíveis para o seu carro.</p>
+   <a class="btn so-bio" id="mmZap" href="#" target="_blank" rel="noopener" style="margin-top:18px">Ver modelos para o meu carro</a>
+   <p class="so-loja" style="color:var(--gold2);margin:16px 0 0">Peça para ver as centrais no balcão — algumas ficam ligadas para teste.</p>
+  </div>
+ </div>
+</div></section>
+
+<!-- PALCO SONORO -->
+<section class="band palco" id="palco"><div class="wrap palco-g">
+ <div class="palco-txt">
+  <div class="kick"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Processamento DSP</div>
+  <h2 class="reveal">Por que o som parece vir <em class="s">da porta?</em></h2>
+  <p class="lead reveal">No carro você senta mais perto de um lado. O som do alto-falante mais próximo chega antes, e a música "gruda" na porta. O processador DSP atrasa cada alto-falante na medida certa para tudo chegar junto ao seu ouvido.</p>
+  <p class="estado" id="pEstado" aria-live="polite"></p>
+  <div class="seg" id="segP" role="group" aria-label="Processador"><span class="pill"></span><button aria-pressed="true" data-m="off">Sem DSP</button><button aria-pressed="false" data-m="on">Com DSP</button></div>
+  <div class="ms" id="ms"></div>
+ </div>
+ <div class="carro" id="carro"><svg id="carroSvg" viewBox="0 0 400 500" role="img" aria-label="Carro visto de cima com ondas sonoras chegando ao motorista"></svg></div>
+</div></section>
+
+<!-- PROJETO CAMPEÃO -->
+<section class="band" id="projeto"><div class="wrap proj-g">
+ <div class="hot reveal" id="hot"><img src="amplificadores.jpg" alt="Porta-malas do Jeep Renegade com amplificadores iluminados em LED dourado" loading="lazy"><div class="tip" id="tip"><b></b><p></p></div></div>
+ <div>
+  <div class="kick"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Projeto em destaque</div>
+  <h2 class="reveal">Jeep Renegade, <em class="s">campeão nacional.</em></h2>
+  <p class="lead reveal">Projeto de áudio SQ desenvolvido aqui em Jaraguá do Sul que levou o 1º lugar na categoria Intermediate Pro do SQX Brasil 2026, etapa São Paulo — campeonato que avalia qualidade sonora, não volume. Toque nos pontos da foto.</p>
+  <div class="crit reveal"><span>Definição</span><span>Equilíbrio tonal</span><span>Palco sonoro</span><span>Posicionamento</span></div>
+  <div class="trofeu reveal"><img src="trofeu1.jpg" alt="Troféu de 1º lugar do SQX 2026" loading="lazy"><div><b>1º lugar</b><span>Intermediate Pro · SQX Brasil 2026 · Etapa São Paulo</span></div></div>
+ </div>
+</div></section>
+
+<!-- PROCESSO -->
+<section class="band so-bio" id="processo" style="background:var(--bg2)"><div class="wrap">
+ <div class="kick"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Como funciona</div>
+ <h2 class="reveal">Sem improviso, <em class="s">do início ao fim.</em></h2>
+ <div class="passos" id="passos"></div>
+</div></section>
+
+<!-- GALERIA -->
+<section class="band so-bio" id="galeria" style="padding-left:0;padding-right:0"><div class="wrap" style="padding:0 max(5vw,18px)">
+ <div class="kick"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Detalhes</div>
+ <h2 class="reveal">Acabamento que <em class="s">se vê.</em></h2>
+ </div>
+ <div class="gal" id="gal"></div>
+ <div class="gal-nav"><button id="gPrev" aria-label="Foto anterior">‹</button><button id="gNext" aria-label="Próxima foto">›</button></div>
+</section>
+
+<!-- EVENTO -->
+<section class="band evento" id="evento"><div class="wrap">
+ <div class="ev reveal">
+  <div class="ev-img" role="img" aria-label="Projeto de som com troféu no porta-malas"></div>
+  <div class="ev-c">
+   <div class="kick"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span id="evData"></span></div>
+   <h2>Acoustic Sound <em class="s">Experience</em></h2>
+   <p class="lead" style="font-size:16px">O primeiro evento de som de qualidade de Jaraguá do Sul. Venha ouvir de perto.</p>
+   <ul class="ev-l" id="evL"></ul>
+   <div class="cd" id="cd"></div>
+   <a class="btn so-bio" id="evZap" href="#" target="_blank" rel="noopener">Quero participar</a>
+   <p class="so-loja" style="color:var(--gold2);margin:0">Pergunte no balcão sobre as condições especiais do evento.</p>
+  </div>
+ </div>
+ <div class="sabs reveal" id="sabs"><b>Sábados especiais de fim de ano</b><div style="color:var(--mute);font-size:14.5px;margin-top:4px">Abrimos em sábados selecionados. Agende pelo WhatsApp.</div><div class="ds" id="ds"></div></div>
+</div></section>
+
+<!-- AVALIAR -->
+<section class="band aval" id="avaliar"><div class="wrap">
+ <div class="kick" style="justify-content:center"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Avaliações no Google</div>
+ <div class="nota" id="notaG"></div>
+ <div class="estrelas" id="est"></div>
+ <p style="color:var(--mute);margin:4px 0 0" id="totG"></p>
+ <div class="deps" id="deps"></div>
+ <h3 style="font-size:24px;font-weight:300">Sua opinião ajuda a gente a melhorar.</h3>
+ <p style="color:var(--mute);margin:8px auto 22px;max-width:46ch">Conte como foi o atendimento e o resultado. Leva menos de um minuto.</p>
+ <a class="btn" id="btnAval" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.8 5.7 6.3.9-4.6 4.4 1.1 6.2L12 17l-5.6 3 1.1-6.2L2.9 9.4l6.3-.9z"/></svg>Avaliar no Google</a>
+</div></section>
+
+<!-- INFO -->
+<section class="band" id="info" style="background:var(--bg2)"><div class="wrap">
+ <div class="kick"><svg viewBox="0 0 38 14"><path d="M0 7h6l2-5 3 10 3-12 3 14 3-10 2 6 2-3h14" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Visite a loja</div>
+ <h2 class="reveal">Venha <em class="s">ouvir</em> pessoalmente.</h2>
+ <div class="info-g">
+  <div class="ic reveal"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Horário</h3><ul class="sem" id="sem"></ul></div>
+  <div class="ic reveal"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0119 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Endereço</h3>
+   <p id="end"></p>
+   <div class="mapa"><svg viewBox="0 0 300 170" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="#26262b" stroke-width="10" fill="none"><path d="M-10 120 C80 100 160 140 310 90"/><path d="M60 -10 L110 180"/><path d="M220 -10 C200 60 240 120 210 180"/></g><g stroke="#1f1f23" stroke-width="4" fill="none"><path d="M-10 40 L310 60"/><path d="M150 -10 L170 180"/></g><circle cx="168" cy="96" r="22" fill="#d8a93b22"/><path d="M168 70c-9 0-16 7-16 16 0 12 16 26 16 26s16-14 16-26c0-9-7-16-16-16z" fill="#d8a93b"/><circle cx="168" cy="86" r="5.5" fill="#0b0b0c"/></svg></div>
+   <a class="btn ghost" id="btnMapa" href="#" target="_blank" rel="noopener">Abrir no mapa</a></div>
+  <div class="ic reveal"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg>Contato</h3>
+   <a class="tel" id="tel" href="#"></a>
+   <p style="color:var(--mute);font-size:14px;margin-top:6px">Garantia permanente nos serviços.</p>
+   <div class="row"><a class="btn so-bio" id="infoZap" href="#" target="_blank" rel="noopener">WhatsApp</a><a class="btn ghost" id="infoInsta" href="#" target="_blank" rel="noopener">@acousticsoundsc</a></div>
+  </div>
+ </div>
+</div></section>
+</main>
+
+<footer><div class="marca" style="font-size:18px">ACOUSTIC <span class="w"><i></i><i></i><i></i><i></i><i></i></span> SOUND</div><div>Som automotivo premium · Jaraguá do Sul/SC</div></footer>
+
+<div class="folha" id="folha" role="dialog" aria-modal="true" aria-labelledby="fT"><div class="box"><button class="x" id="fX" aria-label="Fechar">×</button><div class="kick" id="fK"></div><h3 id="fT"></h3><p id="fP"></p><ul id="fL"></ul><a class="btn so-bio" id="fZap" href="#" target="_blank" rel="noopener" style="width:100%">Pedir orçamento no WhatsApp</a><p class="so-loja" style="color:var(--gold2);margin:0">Fale com a equipe aqui no balcão.</p></div></div>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Foto ampliada"><button id="lbX" aria-label="Fechar">×</button><img id="lbI" alt=""></div>
+<div class="lembrete" id="lemb"><p><b>Gostou do atendimento?</b><br>Sua avaliação no Google ajuda muito.</p><a class="btn" id="lembA" href="#" target="_blank" rel="noopener">Avaliar</a><button id="lembX" aria-label="Fechar">×</button></div>
+
+<script>
+{
+/* =================== EDITE AQUI =================== */
+const CONFIG={
+ whatsapp:'https://wa.me/message/5D5OIVLZ67RDN1',
+ instagram:'https://www.instagram.com/acousticsoundsc/',
+ telefone:'(47) 3273-7606',
+ endereco:'R. José Narloch, 2075 — Tifa Martins, Jaraguá do Sul/SC · CEP 89253-789',
+ google:{nota:4.8,total:88,
+  avaliar:'https://search.google.com/local/writereview?placeid=ChIJm_3jG36U3pQRtoe5xfSXIxU',
+  perfil:'https://www.google.com/maps/place/?q=place_id:ChIJm_3jG36U3pQRtoe5xfSXIxU'},
+ // 0=dom … 6=sáb · intervalos [abre, fecha] em "HH:MM"
+ horario:{1:[['08:00','12:00'],['13:30','18:00']],2:[['08:00','12:00'],['13:30','18:00']],3:[['08:00','12:00'],['13:30','18:00']],4:[['08:00','12:00'],['13:30','18:00']],5:[['08:00','12:00'],['13:30','18:00']]},
+ sabadosEspeciais:['2026-11-28','2026-12-05','2026-12-12','2026-12-19'],
+ sabadoHorario:[['08:00','12:00']], // CONFIRMAR com o cliente
+ evento:{inicio:'2026-12-12T10:00:00-03:00',fim:'2026-12-12T15:00:00-03:00',rotulo:'Sábado, 12 de dezembro · 10h às 15h',
+  itens:['Audição de sistemas SQ','Nosso carro show em demonstração','Outros projetos de som automotivo','Encontro, troca de experiências, música boa e chope gelado','Condições especiais para quem quer levar o som a outro nível']},
+ numeros:[{v:20,suf:'+',t:'anos de experiência'},{v:4.8,dec:1,suf:'★',t:'nota no Google'},{v:7.3,dec:1,suf:' mil',t:'seguidores no Instagram'},{v:1,suf:'º',t:'lugar no SQX Brasil 2026'}],
+ fotos:['projeto-renegade','amplificadores','alto-falante','renegade','bateria'],
+ galeria:[['projeto-renegade','Porta-malas com subwoofer e amplificadores'],['alto-falante','Alto-falante em painel sob medida'],['amplificadores','Amplificadores com LED'],['bateria','Distribuição de energia com acabamento limpo'],['renegade','Jeep Renegade campeão'],['porta-malas','Equipamentos do projeto'],['trofeu2','Troféu SQX 2026']],
+ servicos:[
+  {t:'Som SQ',d:'Qualidade sonora acima de tudo',i:'sq',p:'Projetos focados em fidelidade: ouvir a música como ela foi gravada, com definição, equilíbrio e palco sonoro.',l:['Alto-falantes, subwoofers e amplificadores de alto nível','Projeto pensado para o seu carro e estilo musical','Do upgrade simples ao projeto de competição']},
+  {t:'Processamento DSP',d:'Ajuste fino com processador',i:'dsp',p:'O processador de áudio corrige o que o carro atrapalha: distância diferente de cada alto-falante, reflexos e ressonâncias.',l:['Alinhamento de tempo','Equalização por canal','Cortes de frequência (crossover)','Palco sonoro centralizado']},
+  {t:'Multimídias',d:'Centrais com integração',i:'mm',p:'Instalação de centrais multimídia com acabamento original, integradas ao som e aos comandos do carro.',l:['Espelhamento de celular','Integração com o volante e a câmera','Acabamento sem adaptações aparentes']},
+  {t:'Tratamento acústico',d:'Menos ruído, mais música',i:'ac',p:'Materiais que reduzem vibrações e ruídos das portas e da lataria, melhorando o grave e o silêncio da cabine.',l:['Portas, assoalho e porta-malas','Grave mais firme e sem "tremido"','Cabine mais silenciosa']},
+  {t:'Projetos exclusivos',d:'Caixas e painéis sob medida',i:'pj',p:'Caixas, painéis e acabamentos feitos sob medida, preservando a confiabilidade e o espaço do veículo.',l:['Painéis e caixas personalizadas','Acabamento em acrílico e iluminação','Instalação limpa e sem improviso']},
+  {t:'Iluminação LED',d:'Detalhes que valorizam',i:'led',p:'Iluminação em LED para projetos de som e detalhes do carro, com instalação elétrica segura.',l:['LED em projetos de porta-malas','Instalação elétrica protegida']},
+  {t:'PPF',d:'Proteção da pintura',i:'ppf',p:'Película de proteção de pintura (PPF) contra riscos, pedriscos e desgaste do dia a dia.',l:['Proteção invisível','Aplicação por profissionais']},
+  {t:'Produtos e acessórios',d:'Loja com marcas de qualidade',i:'pr',p:'Loja com equipamentos de som e acessórios automotivos, com orientação para escolher o que faz sentido para você.',l:['Alto-falantes, módulos e processadores','Alarmes e acessórios','Orientação antes da compra']}
+ ],
+ passos:[
+  ['Conversa','Entendemos seu carro, o que você ouve e o que espera do som.'],
+  ['Projeto','Escolha dos equipamentos e do acabamento, com orçamento claro.'],
+  ['Instalação','Trabalho limpo e discreto, sem adaptações desnecessárias.'],
+  ['Ajuste e entrega','Calibração no processador e entrega com garantia permanente.']
+ ],
+ depoimentos:['A elaboração do projeto foi muito boa e o resultado ficou acima do esperado.','Os melhores produtos, com excelência em mão de obra. Garantia e confiança.','Dono atencioso, serviço show de bola, organização e agilidade.'],
+ // MULTIMÍDIAS — troque pelos modelos reais (exemplo:false esconde o aviso)
+ multimidias:{exemplo:true,
+  itens:[
+   {tam:'7″',t:'Central 7″ de entrada',d:'Espelhamento do celular, Bluetooth e câmera de ré.',preco:'Sob consulta'},
+   {tam:'9″',t:'Central 9″ Android',d:'Tela grande com moldura para o seu modelo e apps no próprio aparelho.',preco:'Sob consulta'},
+   {tam:'10″',t:'Central 10″ premium',d:'Espelhamento sem fio e saídas para processador e amplificador.',preco:'Sob consulta'},
+   {tam:'Fl.',t:'Tela flutuante',d:'Para painéis sem espaço para tela grande: a tela fica acima do painel.',preco:'Sob consulta'}
+  ],
+  inclui:['Moldura sob medida','Comandos do volante','Câmera de ré','Integração com o som','Garantia permanente na instalação']},
+ hotspots:[
+  {x:55,y:30,t:'Amplificadores GoldHorn',p:'Cada amplificador alimenta um grupo de alto-falantes, com potência limpa e sobra.'},
+  {x:16,y:22,t:'Distribuição de energia',p:'Cabos e distribuidores dimensionados para entregar corrente sem perdas.'},
+  {x:81,y:40,t:'Assinatura Acoustic Sound',p:'Acrílico gravado e iluminado: o projeto também é acabamento.'},
+  {x:26,y:88,t:'Iluminação em LED',p:'Contorno em LED que destaca o projeto sem esquentar os equipamentos.'}
+ ]
+};
+/* ================================================== */
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LOJA=['#mesa','#loja'].includes(location.hash);
+if(LOJA)document.body.classList.add('loja');
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fmt=(n,d=0)=>n.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+// links
+['#zap','#ctaZap','#evZap','#infoZap','#fZap'].forEach(s=>$(s).href=CONFIG.whatsapp);
+['#atInsta','#infoInsta'].forEach(s=>$(s).href=CONFIG.instagram);
+['#btnAval','#lembA','#atAval'].forEach(s=>{$(s).href=CONFIG.google.avaliar;$(s).target='_blank';$(s).rel='noopener'});
+$('#btnMapa').href=CONFIG.google.perfil;
+$('#tel').textContent=CONFIG.telefone;$('#tel').href='tel:+55'+CONFIG.telefone.replace(/\D/g,'');
+$('#end').textContent=CONFIG.endereco;
+$('#gNota').textContent=fmt(CONFIG.google.nota,1);
+
+// splash + marca animada
+$('#sw').innerHTML='<i></i>'.repeat(9);
+$$('.marca .w i').forEach((i,k)=>i.style.animationDelay=(k*.13%0.9)+'s');
+addEventListener('load',()=>setTimeout(()=>$('#splash').classList.add('fora'),RM?0:700));
+setTimeout(()=>$('#splash').classList.add('fora'),2500);
+
+// status aberto/fechado
+const hm=s=>{const[a,b]=s.split(':');return +a*60+ +b};
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function turnos(d){if(d.getDay()===6&&CONFIG.sabadosEspeciais.includes(iso(d)))return CONFIG.sabadoHorario;return CONFIG.horario[d.getDay()]||[]}
+function status(){const n=new Date(),m=n.getHours()*60+n.getMinutes(),t=turnos(n);let txt,ab=false;
+ const cur=t.find(([a,b])=>m>=hm(a)&&m<hm(b));
+ if(cur){ab=true;txt='Aberto agora · até '+cur[1].replace(':00','h').replace(':','h')}
+ else{const prox=t.find(([a])=>m<hm(a));
+  if(prox)txt='Fechado · abre às '+prox[0].replace(':00','h').replace(':','h');
+  else{for(let k=1;k<8;k++){const d=new Date(n);d.setDate(n.getDate()+k);const tt=turnos(d);if(tt.length){txt='Fechado · abre '+(k===1?'amanhã':['dom','seg','ter','qua','qui','sex','sáb'][d.getDay()])+' às '+tt[0][0].replace(':00','h');break}}}}
+ $('#statusT').textContent=txt||'Fechado';$('#status').classList.toggle('fechado',!ab)}
+status();setInterval(status,60000);
+
+// slides
+const sl=$('#slides'),bars=$('#bars');let si=0,sT;
+sl.innerHTML=CONFIG.fotos.map(f=>`<div style="background-image:url('${esc(f)}.jpg')"></div>`).join('');
+bars.innerHTML=CONFIG.fotos.map(()=>'<i><b></b></i>').join('');
+function show(i){si=(i+CONFIG.fotos.length)%CONFIG.fotos.length;[...sl.children].forEach((d,k)=>d.classList.toggle('on',k===si));
+ [...bars.children].forEach((b,k)=>{b.className=k<si?'feito':'';if(k===si){void b.offsetWidth;b.className='agora'}});clearTimeout(sT);sT=setTimeout(()=>show(si+1),6000)}
+show(0);
+$('#topo').addEventListener('click',e=>{if(e.target.closest('a,button'))return;const r=e.currentTarget.getBoundingClientRect(),p=document.createElement('span');p.className='ripple';p.style.left=(e.clientX-r.left)+'px';p.style.top=(e.clientY-r.top)+'px';e.currentTarget.appendChild(p);setTimeout(()=>p.remove(),1000);show(e.clientX<innerWidth/3?si-1:si+1)});
+
+// títulos palavra por palavra
+$$('h1[data-t],h2').forEach(h=>{const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(w=>{if(!w.trim()){f.append(w);return}const s=document.createElement('span');s.className='titulo-w';s.textContent=w;f.append(s)});c.replaceWith(f)}else if(c.nodeType===1&&!c.classList.contains('titulo-w')){c.classList.add('titulo-w')}})};walk(h);
+ h.querySelectorAll('.titulo-w').forEach((w,k)=>w.style.transitionDelay=(k*.06)+'s')});
+setTimeout(()=>$$('.hero .titulo-w').forEach(w=>w.classList.add('in')),RM?0:600);
+
+// reveal
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');if(e.target.id==='nums')contar();io.unobserve(e.target)}}),{threshold:.15});
+$$('.reveal,h2,.estrelas').forEach(el=>io.observe(el));
+
+// números
+$('#nums').innerHTML=CONFIG.numeros.map(n=>`<div class="num"><b data-v="${n.v}" data-d="${n.dec||0}" data-s="${esc(n.suf||'')}">0</b><span>${esc(n.t)}</span></div>`).join('');
+function contar(){$$('#nums b').forEach(b=>{const v=+b.dataset.v,d=+b.dataset.d,s=b.dataset.s,t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/1600),e=1-Math.pow(1-p,3);b.textContent=fmt(v*e,d)+s;if(p<1)requestAnimationFrame(f)};RM?b.textContent=fmt(v,d)+s:requestAnimationFrame(f)})}
+
+// onda do hero
+const cv=$('#onda'),cx=cv.getContext('2d');let ondaVis=true,mx=.5,t0=0;
+function sizeC(c){const r=c.getBoundingClientRect(),dp=Math.min(2,devicePixelRatio||1);c.width=r.width*dp;c.height=r.height*dp;return dp}
+let dpO=sizeC(cv);addEventListener('resize',()=>{dpO=sizeC(cv)});
+addEventListener('pointermove',e=>mx=e.clientX/innerWidth);
+function onda(t){if(ondaVis){const W=cv.width,H=cv.height;cx.clearRect(0,0,W,H);
+ for(let L=0;L<3;L++){cx.beginPath();cx.strokeStyle=L?`rgba(216,169,59,${.25-L*.06})`:'rgba(241,207,116,.75)';cx.lineWidth=(L?1:1.6)*dpO;
+  for(let x=0;x<=W;x+=4*dpO){const u=x/W,env=Math.exp(-Math.pow((u-mx)*3.2,2)),y=H/2+Math.sin(u*22+t/380+L*1.3)*H*.32*env*Math.sin(t/900+L)+Math.sin(u*60+t/160)*H*.05*env;x?cx.lineTo(x,y):cx.moveTo(x,y)}cx.stroke()}}
+ if(!RM)requestAnimationFrame(onda)}
+requestAnimationFrame(onda);
+new IntersectionObserver(e=>ondaVis=e[0].isIntersecting).observe($('#topo'));
+
+// eq de progresso
+const eq=$('#eq');eq.innerHTML='<i></i>'.repeat(48);const eqi=[...eq.children];
+function prog(){const p=scrollY/(document.documentElement.scrollHeight-innerHeight||1),n=Math.round(p*eqi.length);eqi.forEach((b,k)=>b.classList.toggle('on',k<n));
+ $('#nav').classList.toggle('solido',scrollY>40);
+ let at='topo';['topo','ouca','servicos','projeto','info'].forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<innerHeight*.4)at=id});
+ if(at==='projeto'&&$('#info').getBoundingClientRect().top<innerHeight*.6)at='info';
+ $$('nav.tabs a[data-s]').forEach(a=>a.classList.toggle('ativo',a.dataset.s===at))}
+addEventListener('scroll',prog,{passive:true});prog();
+
+// serviços
+const IC={sq:'<path d="M3 12h3l2-6 3 12 3-15 3 18 2-9h2"/>',dsp:'<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10v4M10 9v6M13 11v2M16 8v8"/>',mm:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M10 9l4 2-4 2z"/>',ac:'<path d="M4 4h16v16H4z"/><path d="M4 9l5-5M4 14l10-10M4 19L19 4M9 20L20 9M14 20l6-6"/>',pj:'<rect x="3" y="7" width="18" height="12" rx="2"/><circle cx="9" cy="13" r="3.5"/><circle cx="17" cy="11" r="1.5"/><circle cx="17" cy="15.5" r="1.5"/>',led:'<path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0012 3z"/>',ppf:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',pr:'<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 016 0v2"/>'};
+$('#grid-s').innerHTML=CONFIG.servicos.map((s,k)=>`<button class="serv reveal" data-k="${k}" aria-haspopup="dialog"><span class="mais">+</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${IC[s.i]||''}</svg><div><b>${esc(s.t)}</b><span>${esc(s.d)}</span></div></button>`).join('');
+$$('.serv').forEach(b=>{io.observe(b);
+ b.addEventListener('click',()=>abrir(CONFIG.servicos[b.dataset.k]));
+ if(!RM&&matchMedia('(hover:hover)').matches){b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;b.style.transform=`rotateY(${x*12}deg) rotateX(${-y*12}deg) translateZ(6px)`});b.addEventListener('pointerleave',()=>b.style.transform='')}});
+let ultimoFoco;
+function abrir(s){ultimoFoco=document.activeElement;$('#fK').textContent='Serviço';$('#fT').textContent=s.t;$('#fP').textContent=s.p;$('#fL').innerHTML=s.l.map(x=>`<li>${esc(x)}</li>`).join('');$('#folha').classList.add('on');$('#fX').focus()}
+function fechar(){$('#folha').classList.remove('on');ultimoFoco&&ultimoFoco.focus()}
+$('#fX').onclick=fechar;$('#folha').addEventListener('click',e=>{if(e.target.id==='folha')fechar()});
+addEventListener('keydown',e=>{if(e.key==='Escape'){fechar();lbClose()}});
+
+// ======= demo de áudio =======
+let AC,master,an,gO,gS,bus,noiseB,tocando=false,timer,nextT=0,step=0,modo='sq';
+const BPM=92,SP=60/BPM/4;
+const mtf=m=>440*Math.pow(2,(m-69)/12);
+const CH=[[57,60,64,67],[53,57,60,64],[48,52,55,59],[55,59,62,64]];
+function initAudio(){AC=new (window.AudioContext||window.webkitAudioContext)();
+ master=AC.createGain();master.gain.value=.8;an=AC.createAnalyser();an.fftSize=1024;an.smoothingTimeConstant=.8;master.connect(an);an.connect(AC.destination);
+ bus=AC.createGain();
+ // cadeia "original": mono, sem grave, médios ásperos, agudo cortado
+ const mono=AC.createGain();mono.channelCount=1;mono.channelCountMode='explicit';mono.channelInterpretation='speakers';
+ const hp=AC.createBiquadFilter();hp.type='highpass';hp.frequency.value=220;hp.Q.value=.9;
+ const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=4200;
+ const pk=AC.createBiquadFilter();pk.type='peaking';pk.frequency.value=1700;pk.gain.value=9;pk.Q.value=1.1;
+ const ws=AC.createWaveShaper();const c=new Float32Array(1024);for(let i=0;i<1024;i++){const x=i/512-1;c[i]=Math.tanh(x*2.2)}ws.curve=c;
+ gO=AC.createGain();bus.connect(mono);mono.connect(hp);hp.connect(lp);lp.connect(pk);pk.connect(ws);ws.connect(gO);gO.connect(master);
+ // cadeia SQ
+ const ls=AC.createBiquadFilter();ls.type='lowshelf';ls.frequency.value=90;ls.gain.value=3;
+ gS=AC.createGain();bus.connect(ls);ls.connect(gS);gS.connect(master);
+ gO.gain.value=modo==='o'?.55:0;gS.gain.value=modo==='sq'?1:0;
+ noiseB=AC.createBuffer(1,AC.sampleRate*.5,AC.sampleRate);const d=noiseB.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+const pan=(node,v)=>{if(AC.createStereoPanner){const p=AC.createStereoPanner();p.pan.value=v;node.connect(p);p.connect(bus)}else node.connect(bus)};
+function env(g,t,a,peak,dec){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);g.gain.exponentialRampToValueAtTime(0.0001,t+a+dec)}
+function kick(t){const o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(42,t+.14);env(g,t,.004,.9,.32);o.connect(g);pan(g,0);o.start(t);o.stop(t+.4)}
+function noise(t,f,type,v,dec,p){const s=AC.createBufferSource();s.buffer=noiseB;const fl=AC.createBiquadFilter();fl.type=type;fl.frequency.value=f;const g=AC.createGain();env(g,t,.002,v,dec);s.connect(fl);fl.connect(g);pan(g,p);s.start(t);s.stop(t+dec+.05)}
+function bass(t,m,d){const o=AC.createOscillator(),o2=AC.createOscillator(),g=AC.createGain();o.type='sine';o2.type='triangle';o.frequency.value=o2.frequency.value=mtf(m);const g2=AC.createGain();g2.gain.value=.25;o2.connect(g2);g2.connect(g);o.connect(g);env(g,t,.01,.55,d);pan(g,0);o.start(t);o2.start(t);o.stop(t+d+.1);o2.stop(t+d+.1)}
+function pad(t,ch,d){ch.slice(0,3).forEach((m,k)=>{const o=AC.createOscillator(),f=AC.createBiquadFilter(),g=AC.createGain();o.type='sawtooth';o.frequency.value=mtf(m);o.detune.value=(k-1)*7;f.type='lowpass';f.frequency.value=1500;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(.05,t+.5);g.gain.setValueAtTime(.05,t+d-.4);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(f);f.connect(g);pan(g,[-.8,0,.8][k]);o.start(t);o.stop(t+d+.05)})}
+function pluck(t,m,p){const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=mtf(m);env(g,t,.003,.16,.38);o.connect(g);pan(g,p);o.start(t);o.stop(t+.45)}
+function agenda(){while(nextT<AC.currentTime+.14){const s=step%16,bar=Math.floor(step/16)%4,ch=CH[bar],t=nextT;
+ if(s===0||s===8||(s===10&&bar%2))kick(t);
+ if(s===4||s===12)noise(t,1900,'bandpass',.35,.16,0);
+ if(s%2===0)noise(t,8000,'highpass',s%4?.07:.11,.05,s%4?.45:-.45);
+ if([0,6,8,14].includes(s))bass(t,ch[0]-24,s===14?.15:.32);
+ if(s===0)pad(t,ch,SP*16);
+ if(s%2===1)pluck(t,ch[(s>>1)%4]+12,((s>>1)%2)?.7:-.7);
+ nextT+=SP;step++}}
+const ICP='<path d="M7 4l13 8-13 8z"/>',ICS='<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+$('#play').addEventListener('click',async()=>{try{if(!AC)initAudio();if(AC.state==='suspended')await AC.resume()}catch(e){return}
+ tocando=!tocando;$('#playI').innerHTML=tocando?ICS:ICP;$('#play').setAttribute('aria-label',tocando?'Pausar demonstração':'Tocar demonstração');
+ if(tocando){nextT=AC.currentTime+.05;timer=setInterval(agenda,25)}else{clearInterval(timer);master.gain.setTargetAtTime(.0001,AC.currentTime,.05);setTimeout(()=>{if(!tocando)master.gain.value=.8},300)}});
+function setModo(m){modo=m;$('#seg').classList.toggle('sq',m==='sq');$$('#seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));$('#ouca').classList.toggle('sqon',m==='sq');
+ if(AC){gO.gain.setTargetAtTime(m==='o'?.55:0,AC.currentTime,.06);gS.gain.setTargetAtTime(m==='sq'?1:0,AC.currentTime,.06)}}
+$$('#seg button').forEach(b=>b.onclick=()=>setModo(b.dataset.m));
+// espectro
+const sc=$('#spec'),sx=sc.getContext('2d');let dpS=sizeC(sc),specVis=false;addEventListener('resize',()=>dpS=sizeC(sc));
+new IntersectionObserver(e=>specVis=e[0].isIntersecting).observe(sc);
+const fbuf=new Uint8Array(512);
+function spec(t){if(specVis){const W=sc.width,H=sc.height,N=56,gap=3*dpS,bw=(W-gap*(N-1))/N;sx.clearRect(0,0,W,H);
+ if(AC&&tocando)an.getByteFrequencyData(fbuf);
+ for(let i=0;i<N;i++){const idx=Math.floor(Math.pow(i/N,1.9)*300)+1;let v=(AC&&tocando)?fbuf[idx]/255:(.08+.06*Math.sin(t/600+i*.4)+.04*Math.sin(t/230+i));v=Math.max(.02,v);
+  const h=v*H*.92,x=i*(bw+gap),g=sx.createLinearGradient(0,H,0,H-h);g.addColorStop(0,'#8a6a1f');g.addColorStop(1,modo==='sq'?'#f1cf74':'#e7e1d4');sx.fillStyle=g;sx.beginPath();sx.roundRect?sx.roundRect(x,H-h,bw,h,bw/2):sx.rect(x,H-h,bw,h);sx.fill()}}
+ requestAnimationFrame(spec)}
+requestAnimationFrame(spec);
+
+
+// ======= multimídias =======
+const MM=CONFIG.multimidias;
+$('#mmZap').href=CONFIG.whatsapp;
+if(!MM.exemplo)$('#mmAviso').remove();
+$('#mmCards').innerHTML=MM.itens.map(m=>`<div class="mmc reveal"><div class="tam">${esc(m.tam)}</div><div><b>${esc(m.t)}</b><span>${esc(m.d)}</span></div><em>${esc(m.preco)}</em></div>`).join('');
+$$('.mmc').forEach(c=>io.observe(c));
+$('#mmInc').innerHTML=MM.inclui.map(i=>`<span>${esc(i)}</span>`).join('');
+const SVGI={mapa:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z M9 4v14M15 6v14"/>',mus:'<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',tel:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/>',cam:'<rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l2-3h4l2 3"/>',msg:'<path d="M4 5h16v11H9l-5 4z"/>',rad:'<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l10-5"/><circle cx="8" cy="14" r="2"/>',cfg:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>',eq:'<path d="M5 20v-6M5 10V4M12 20v-9M12 7V4M19 20v-4M19 12V4M3 14h4M10 7h4M17 16h4"/>'};
+const appI=(k,c,n)=>`<div class="app"><i style="background:${c}"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${SVGI[k]}</svg></i>${n}</div>`;
+const hora=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+const TELAS={
+ esp:{n:'Espelhamento',h:()=>`<div class="apps">${appI('mapa','#2f7d5b','Mapas')+appI('mus','#b0452f','Música')+appI('tel','#2e9e4f','Telefone')+appI('msg','#2c6fb8','Mensagens')+appI('cam','#555b63','Câmera')+appI('rad','#8a6a1f','Rádio')+appI('eq','#6a4bb0','Áudio DSP')+appI('cfg','#3a3a40','Ajustes')}</div>`},
+ cam:{n:'Câmera de ré',h:()=>`<div class="cam"><svg viewBox="0 0 160 90" preserveAspectRatio="none"><path d="M40 90 L62 40 M120 90 L98 40" stroke="#3ccf73" stroke-width="1.4" fill="none"/><path d="M50 72h60" stroke="#f1cf74" stroke-width="1.4"/><path d="M45 82h70" stroke="#d33a35" stroke-width="1.6"/><path d="M57 55h46" stroke="#3ccf73" stroke-width="1.2"/></svg><span>● Ré · 1,2 m</span></div>`},
+ nav:{n:'Navegação',h:()=>`<div class="mapa2"><svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice"><g stroke="#24272c" stroke-width="6" fill="none"><path d="M-5 70 C40 60 70 80 165 50"/><path d="M30 -5 L55 95"/><path d="M120 -5 C110 30 130 60 115 95"/></g><path d="M48 95 L40 62 C70 70 100 60 116 40" stroke="#d8a93b" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="116" cy="40" r="4" fill="#f1cf74"/><path d="M46 80 l-4 -9 9 3z" fill="#fff"/></svg><div class="card"><b>Acoustic Sound</b><br>R. José Narloch · 6 min</div></div>`},
+ mus:{n:'Música',h:()=>`<div class="musica"><div class="capa"></div><div><small>Tocando agora · Bluetooth</small><b>Sua playlist favorita</b><small>Ajuste SQ ativo</small><div class="eqm">${Array.from({length:14},(_,k)=>`<i style="animation-delay:${(k*.11)%.9}s"></i>`).join('')}</div><div class="prog"><i></i></div></div></div>`}
+};
+let telaAt='esp';
+function render(){$('#tela').innerHTML=`<div class="ui"><div class="barra"><span>${hora()}</span><span>${esc(TELAS[telaAt].n)}</span><span>▮▮▮ ●</span></div><div class="corpo">${TELAS[telaAt].h()}</div></div>`}
+$('#mmTabs').innerHTML=Object.entries(TELAS).map(([k,v])=>`<button data-k="${k}" aria-pressed="${k===telaAt}">${esc(v.n)}</button>`).join('');
+$$('#mmTabs button').forEach(b=>b.onclick=()=>{telaAt=b.dataset.k;$$('#mmTabs button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
+$('#mmTam').innerHTML=[['7','7″'],['9','9″'],['10','10″'],['fl','Flutuante']].map(([k,n])=>`<button data-k="${k}" aria-pressed="${k==='9'}">${n}</button>`).join('');
+$$('#mmTam button').forEach(b=>b.onclick=()=>{$('#tela').dataset.t=b.dataset.k;$$('#mmTam button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+render();
+
+// ======= palco sonoro =======
+const SV=$('#carroSvg'),NS='http://www.w3.org/2000/svg';
+const SPK=[{n:'Diant. esq.',x:78,y:205},{n:'Diant. dir.',x:322,y:205},{n:'Tras. esq.',x:82,y:345},{n:'Tras. dir.',x:318,y:345},{n:'Sub',x:200,y:452}];
+const EAR={x:150,y:250},STG=[{x:96,y:150},{x:200,y:118}];
+SV.innerHTML=`<defs><radialGradient id="gl"><stop offset="0" stop-color="#f1cf74" stop-opacity=".9"/><stop offset="1" stop-color="#f1cf74" stop-opacity="0"/></radialGradient></defs>
+<path d="M120 40 Q200 18 280 40 Q330 55 336 120 L340 400 Q338 470 280 482 Q200 494 120 482 Q62 470 60 400 L64 120 Q70 55 120 40Z" fill="#17171a" stroke="#3a3a40" stroke-width="2"/>
+<path d="M104 128 Q200 104 296 128 L286 176 Q200 160 114 176Z" fill="#232328"/><path d="M114 392 Q200 404 286 392 L292 430 Q200 446 108 430Z" fill="#232328"/>
+<rect x="110" y="215" width="74" height="78" rx="16" fill="#26262b"/><rect x="216" y="215" width="74" height="78" rx="16" fill="#202024"/><rect x="110" y="305" width="180" height="70" rx="18" fill="#202024"/>
+<circle cx="147" cy="195" r="20" fill="none" stroke="#3a3a40" stroke-width="4"/>
+<g id="ondas"></g>
+${SPK.map(s=>`<circle cx="${s.x}" cy="${s.y}" r="${s.n==='Sub'?13:10}" fill="#0b0b0c" stroke="#d8a93b" stroke-width="2"/>`).join('')}
+<circle cx="${EAR.x}" cy="${EAR.y}" r="11" fill="#f2ede3"/><text x="${EAR.x}" y="${EAR.y+32}" fill="#a9a49a" font-size="13" text-anchor="middle" font-family="Manrope">você</text>
+<circle id="stg" r="34" fill="url(#gl)"/><text id="stgT" fill="#f1cf74" font-size="13" text-anchor="middle" font-family="Manrope">palco</text>`;
+const og=SV.querySelector('#ondas'),stg=SV.querySelector('#stg'),stgT=SV.querySelector('#stgT');
+const dist=SPK.map(s=>Math.hypot(s.x-EAR.x,s.y-EAR.y)),dmax=Math.max(...dist);
+const CM=.62; // 1 unidade do desenho ≈ 0,62 cm (carro ~3 m)
+let dsp=false,palcoVis=false,stgPos={...STG[0]};
+const ms=$('#ms');
+function renderMs(){ms.innerHTML=SPK.map((s,k)=>{const v=dsp?(dmax-dist[k])*CM/34.3:0;return `<div><b>${fmt(v,2)}<small>ms</small></b><span>${esc(s.n)}</span></div>`}).join('');
+ $('#pEstado').textContent=dsp?'Com DSP: todos chegam juntos e o palco fica à sua frente, como num show.':'Sem DSP: o lado mais próximo chega antes e o som puxa para a porta.'}
+renderMs();
+$$('#segP button').forEach(b=>b.onclick=()=>{dsp=b.dataset.m==='on';$('#segP').classList.toggle('sq',dsp);$$('#segP button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderMs()});
+new IntersectionObserver(e=>palcoVis=e[0].isIntersecting).observe($('#carro'));
+const ringEls=SPK.map(()=>[0,1,2].map(()=>{const c=document.createElementNS(NS,'circle');c.setAttribute('fill','none');c.setAttribute('stroke','#d8a93b');c.setAttribute('cx',0);og.appendChild(c);return c}));
+SPK.forEach((s,k)=>ringEls[k].forEach(c=>{c.setAttribute('cx',s.x);c.setAttribute('cy',s.y)}));
+const PER=2400,VEL=.16;
+function palco(t){if(palcoVis||RM){const tt=RM?900:t;
+ SPK.forEach((s,k)=>{const del=dsp?(dmax-dist[k])/VEL:0;ringEls[k].forEach((c,j)=>{let age=(tt-del-j*PER/3)%PER;if(age<0)age+=PER;const r=age*VEL;const op=Math.max(0,1-r/(dmax+40));c.setAttribute('r',r.toFixed(1));c.setAttribute('stroke-opacity',(op*.7).toFixed(2));c.setAttribute('stroke-width',k===4?2.2:1.3)})});
+ const alvo=STG[dsp?1:0];stgPos.x+=(alvo.x-stgPos.x)*.05;stgPos.y+=(alvo.y-stgPos.y)*.05;
+ stg.setAttribute('cx',stgPos.x);stg.setAttribute('cy',stgPos.y);stgT.setAttribute('x',stgPos.x);stgT.setAttribute('y',stgPos.y+4)}
+ if(!RM)requestAnimationFrame(palco)}
+requestAnimationFrame(palco);
+if(RM){stgPos={...STG[0]};$$('#segP button').forEach(b=>b.addEventListener('click',()=>{stgPos={...STG[dsp?1:0]};palco(0)}))}
+
+// hotspots
+const hot=$('#hot'),tip=$('#tip');
+CONFIG.hotspots.forEach((h,k)=>{const b=document.createElement('button');b.className='hp';b.style.left=h.x+'%';b.style.top=h.y+'%';b.setAttribute('aria-label',h.t);
+ b.onclick=()=>{const on=b.classList.contains('on');$$('.hp').forEach(x=>x.classList.remove('on'));if(on){tip.classList.remove('on');return}b.classList.add('on');tip.querySelector('b').textContent=h.t;tip.querySelector('p').textContent=h.p;tip.classList.add('on')};hot.appendChild(b)});
+
+// passos
+$('#passos').innerHTML=CONFIG.passos.map((p,k)=>`<div class="passo reveal"><div class="n">${k+1}</div><div><h3>${esc(p[0])}</h3><p>${esc(p[1])}</p></div></div>`).join('');
+$$('.passo').forEach(p=>io.observe(p));
+
+// galeria
+const gal=$('#gal');gal.innerHTML=CONFIG.galeria.map(([f,a])=>`<button data-f="${esc(f)}" aria-label="Ampliar: ${esc(a)}"><img src="${esc(f)}.jpg" alt="${esc(a)}" loading="lazy"></button>`).join('');
+const gb=[...gal.children];
+const gio=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('c',e.intersectionRatio>.75)),{root:gal,threshold:[0,.75,1]});gb.forEach(b=>gio.observe(b));
+const gIdx=()=>{const c=gal.scrollLeft+gal.clientWidth/2;let best=0,bd=1e9;gb.forEach((b,k)=>{const d=Math.abs(b.offsetLeft+b.offsetWidth/2-c);if(d<bd){bd=d;best=k}});return best};
+const gGo=k=>gb[Math.max(0,Math.min(gb.length-1,k))].scrollIntoView({behavior:RM?'auto':'smooth',block:'nearest',inline:'center'});
+$('#gPrev').onclick=()=>gGo(gIdx()-1);$('#gNext').onclick=()=>gGo(gIdx()+1);
+gal.addEventListener('keydown',e=>{if(e.key==='ArrowRight')gGo(gIdx()+1);if(e.key==='ArrowLeft')gGo(gIdx()-1)});
+let lbF;gb.forEach(b=>b.onclick=()=>{lbF=b;$('#lbI').src=b.querySelector('img').src;$('#lbI').alt=b.querySelector('img').alt;$('#lb').classList.add('on');$('#lbX').focus()});
+function lbClose(){if($('#lb').classList.contains('on')){$('#lb').classList.remove('on');lbF&&lbF.focus()}}
+$('#lbX').onclick=lbClose;$('#lb').addEventListener('click',e=>{if(e.target.id==='lb')lbClose()});
+
+// evento
+const E=CONFIG.evento,ini=new Date(E.inicio),fim=new Date(E.fim);
+if(new Date()>fim)$('.ev').remove();
+else{$('#evData').textContent=E.rotulo;$('#evL').innerHTML=E.itens.map(i=>`<li>${esc(i)}</li>`).join('');
+ const cd=$('#cd');function tick(){let s=Math.max(0,(ini-new Date())/1000);if(s<=0){cd.innerHTML='<div style="grid-column:1/-1"><b>Acontecendo agora</b><span>até às 15h</span></div>';return}
+  const v=[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),Math.floor(s%60)];cd.innerHTML=v.map((n,k)=>`<div><b>${String(n).padStart(2,'0')}</b><span>${['dias','horas','min','seg'][k]}</span></div>`).join('')}
+ tick();setInterval(tick,1000)}
+const hoje=iso(new Date()),sabs=CONFIG.sabadosEspeciais.filter(d=>d>=hoje);
+if(!sabs.length)$('#sabs').remove();
+else $('#ds').innerHTML=sabs.map(d=>{const[y,m,dd]=d.split('-');return `<span class="${d===hoje?'hoje':''}">${d===hoje?'Hoje · ':''}${dd}/${m}</span>`}).join('');
+if(!$('.ev')&&!sabs.length)$('#evento').remove();
+
+// avaliações
+$('#notaG').textContent=fmt(CONFIG.google.nota,1);$('#totG').textContent=CONFIG.google.total+' avaliações no Google';
+$('#est').innerHTML='<svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.7 6.3.9-4.6 4.4 1.1 6.2L12 17l-5.6 3 1.1-6.2L2.9 9.4l6.3-.9z"/></svg>'.repeat(5);
+$('#deps').innerHTML=CONFIG.depoimentos.map(d=>`<div class="dep reveal"><p>“${esc(d)}”</p><span>Cliente · avaliação no Google</span></div>`).join('');
+$$('.dep').forEach(d=>io.observe(d));
+if(LOJA){let visto=false;try{visto=sessionStorage.getItem('lembAval')}catch(e){}
+ if(!visto)setTimeout(()=>{$('#lemb').classList.add('on');try{sessionStorage.setItem('lembAval','1')}catch(e){}},180000)}
+$('#lembX').onclick=()=>$('#lemb').classList.remove('on');$('#lembA').addEventListener('click',()=>$('#lemb').classList.remove('on'));
+
+// semana
+const NOMES=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],dh=new Date().getDay();
+const fh=t=>t.length?t.map(([a,b])=>a.replace(':00','h').replace(':','h')+'–'+b.replace(':00','h').replace(':','h')).join(' · '):'Fechado';
+$('#sem').innerHTML=[1,2,3,4,5,6,0].map(d=>`<li class="${d===dh?'hoje':''}"><span>${NOMES[d]}${d===dh?' (hoje)':''}</span><span>${d===6&&sabs.length?'Sábados selecionados':fh(CONFIG.horario[d]||[])}</span></li>`).join('');
+
+// links internos rolam sem trocar o #mesa/#loja da URL
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const el=document.getElementById(a.getAttribute('href').slice(1));if(el){e.preventDefault();el.scrollIntoView({behavior:RM?'auto':'smooth'})}});
+}
+</script>
+</body>
+</html>
